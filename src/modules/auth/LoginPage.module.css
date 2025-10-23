@@ -1,0 +1,102 @@
+.loginContainer {
+    max-width: 400px;
+    margin: 4rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup {
+    margin-bottom: 1rem;
+}
+
+.inputField {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+.links {
+    text-align: right;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.links a {
+    color: #555;
+    text-decoration: none;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+.btn {
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* Space between icon and text */
+}
+
+.btnLogin {
+    background-color: #888; /* Gray button */
+    color: white;
+    font-weight: 500;
+}
+
+.btnLogin:hover {
+    background-color: #666;
+}
+
+.socialLogin {
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    padding-top: 2rem;
+    /* --- Flexbox 추가 --- */
+    display: flex;       /* 가로 배치 */
+    gap: 0.8rem;         /* 이미지 사이 간격 */
+    justify-content: center; /* 중앙 정렬 (필요 없을 수 있음, 너비 설정에 따라) */
+}
+
+/* --- 각 소셜 버튼(이미지) 래퍼 --- */
+.socialButtonWrapper {
+    flex: 1; /* 사용 가능한 공간을 균등하게 나눠 가짐 (꽉 차게) */
+    cursor: pointer; /* 클릭 가능 표시 */
+    display: flex; /* 내부 이미지 정렬을 위해 */
+    justify-content: center; /* 이미지 중앙 정렬 */
+    align-items: center; /* 이미지 중앙 정렬 */
+    /* 원한다면 버튼처럼 보이게 배경색/패딩 추가 가능 */
+    /* padding: 0.5rem; */
+    /* border-radius: 4px; */
+}
+
+/* --- 소셜 아이콘(이미지) 스타일 --- */
+.socialIcon {
+    /* 이미지가 부모 너비에 맞춰 크기 조절되도록 */
+    max-width: 100%; /* 부모 너비를 넘지 않게 */
+    height: auto;   /* 비율 유지 */
+    display: block; /* 이미지 하단 여백 제거 */
+    /* 필요하다면 고정 높이 설정 가능 */
+    /* height: 40px; */
+}

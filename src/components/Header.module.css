@@ -1,0 +1,47 @@
+.header {
+    /* 업로드하신 이미지를 참고했습니다. */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #1a1a1a; /* 어두운 배경 */
+    color: white;
+    height: 60px; /* 고정 높이 예시 */
+}
+
+.logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.nav {
+    /* 중앙 메뉴 */
+    display: flex;
+    gap: 2rem; /* 메뉴 사이 간격 */
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.nav a:hover {
+    color: #a0a0a0; /* 호버 효과 */
+}
+
+.userMenu {
+    /* 오른쪽 사용자 메뉴 */
+    display: flex;
+    gap: 1.5rem; /* 아이콘/링크 사이 간격 */
+}
+
+.userMenu a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
