@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styles from './LoginPage.module.css';
 import kakaoIcon from '../../assets/kakao.png';
 import naverIcon from '../../assets/naver.png';
+import googleIcon from '../../assets/google.png';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -23,7 +24,7 @@ function LoginPage() {
                 <div className={styles.inputGroup}>
                     <input
                         type="text"
-                        placeholder="아이디"
+                        placeholder="이메일"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
@@ -53,6 +54,9 @@ function LoginPage() {
                 </div>
                 <div className={styles.socialButtonWrapper} onClick={() => handleSocialLogin('naver')}>
                     <img src={naverIcon} alt="네이버 로그인" className={styles.socialIcon}/>
+                </div>
+                <div className={styles.socialButtonWrapper} onClick={() => handleSocialLogin('google')}>
+                    <img src={googleIcon} alt="구글 로그인" className={styles.socialIcon}/>
                 </div>
             </div>
         </div>

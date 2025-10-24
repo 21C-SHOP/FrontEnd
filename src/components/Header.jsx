@@ -22,8 +22,8 @@ function Header() {
                 <a href="/search">
                     <img src={searchIcon} alt="검색" width={24} height={24}/>
                 </a>
-                <a href="/signup">
-                    <img src={userIcon} alt="회원가입" width={24} height={24}/>
+                <a href="/mypage">
+                    <img src={userIcon} alt="마이페이지" width={24} height={24}/>
                 </a>
                 <a href="/cart">
                     <img src={cartIcon} alt="장바구니" width={24} height={24}/>

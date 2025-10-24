@@ -70,9 +70,8 @@
 }
 
 .socialLogin {
-    margin-top: 2rem;
-    border-top: 1px solid #eee;
-    padding-top: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
     /* --- Flexbox 추가 --- */
     display: flex;       /* 가로 배치 */
     gap: 0.8rem;         /* 이미지 사이 간격 */
@@ -94,7 +93,7 @@
 /* --- 소셜 아이콘(이미지) 스타일 --- */
 .socialIcon {
     /* 이미지가 부모 너비에 맞춰 크기 조절되도록 */
-    max-width: 100%; /* 부모 너비를 넘지 않게 */
+    max-width: 50%; /* 부모 너비를 넘지 않게 */
     height: auto;   /* 비율 유지 */
     display: block; /* 이미지 하단 여백 제거 */
     /* 필요하다면 고정 높이 설정 가능 */
