@@ -45,3 +45,23 @@
     text-decoration: none;
     font-size: 0.9rem;
 }
+
+.userMenu a, .logoutLink { /* .logoutLink 스타일 추가 */
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* 로그아웃 버튼 스타일 예시 (만약 <button>을 쓴다면) */
+.logoutButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+    font-family: inherit;
+}
+.logoutButton:hover {
+    color: #a0a0a0;
+}

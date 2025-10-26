@@ -15,6 +15,7 @@ function LoginPage() {
 
     const handleSocialLogin = (platform) => {
         console.log(`Social login with: ${platform}`);
+        window.location.href = `http://localhost:8080/v1/oauth/${platform}`;
     }
 
     return (
