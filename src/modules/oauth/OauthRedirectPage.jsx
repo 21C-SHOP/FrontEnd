@@ -32,7 +32,7 @@ function OauthRedirectPage() {
                     console.log('소셜 로그인 성공:', data);
                     const isNewUser = !data.result;
                     setMessage(isNewUser ? '환영합니다! 추가 정보 입력 페이지로 이동합니다...' : '로그인 성공! 메인 페이지로 이동합니다...');
-                    setTimeout(() => isNewUser ? navigate('/user-info') : navigate('/'), 1000);
+                    setTimeout(() => isNewUser ? navigate('/init-user-info') : navigate('/'), 1000);
                 })
                 .catch(error => {
                     console.error('소셜 로그인 오류:', error.response ? error.response.data : error.message);

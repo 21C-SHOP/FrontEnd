@@ -9,9 +9,11 @@ import OauthRedirectPage from "@/modules/oauth/OauthRedirectPage.jsx";
 import {useAuth} from "@/hooks/useAuth.jsx";
 import {useEffect, useState} from "react";
 import axiosInstance from "@/api/axiosInstance.js";
+import InitUserInfoPage from "@/modules/user-info/InitUserInfoPage.jsx";
+import Mypage from "@/modules/mypage/Mypage.jsx";
 
 function App() {
-    const { accessToken, login } = useAuth();
+    const {accessToken, login} = useAuth();
     const [isLoading, setIsLoading] = useState(true);
 
     // --- 👇 앱 로드 시 자동 로그인(토큰 재발급) 시도 ---
@@ -65,8 +67,10 @@ function App() {
                     }/>
                     <Route path="/login" element={<LoginPage/>}/>
                     <Route path="/signup" element={<SignupPage/>}/>
+                    <Route path="/init-user-info" element={<InitUserInfoPage/>}/>
                     <Route path="/user-info" element={<UserInfoPage/>}/>
                     <Route path="/redirect/:platform" element={<OauthRedirectPage/>}/>
+                    <Route path="/mypage" element={<Mypage/>}/>
                 </Routes>
             </main>
             <Footer/>

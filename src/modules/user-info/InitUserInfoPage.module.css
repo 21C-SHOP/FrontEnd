@@ -1,0 +1,158 @@
+.signupContainer {
+    max-width: 500px; /* 로그인보다 약간 넓게 */
+    margin: 0.5rem auto;
+    padding: 1rem;
+    /* border: 1px solid #e0e0e0; */
+    /* border-radius: 8px; */
+}
+
+.title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.signupForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputGroup {
+    margin-bottom: 1.5rem; /* 간격 조정 */
+}
+
+.inputGroup label {
+    display: block; /* 레이블을 위로 올림 */
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #555;
+    text-align: left;
+}
+
+.inputField {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+.emailVerifyInputField {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    color: #1a1a1a;
+    max-width: 100px;
+}
+
+/* 주소 입력 필드 스타일 */
+.addressRow {
+    display: flex;
+    gap: 0.5rem; /* 우편번호 입력창과 버튼 사이 간격 */
+}
+.zipCodeInput {
+    flex-grow: 1; /* 남는 공간 차지 */
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8; /* 읽기 전용 느낌 */
+    max-width: 100px;
+    color: #1a1a1a;
+}
+.zipCodeButton {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 4px;
+    white-space: nowrap; /* 버튼 글자 줄바꿈 방지 */
+    color: #333;
+}
+
+/* 생년월일 입력 필드 스타일 */
+.birthdateRow {
+    display: flex;
+    gap: 0.5rem;
+}
+.birthInput {
+    flex: 1; /* 1:1:1 비율로 공간 차지 */
+    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    max-width : 100px;
+    /* number 타입 기본 화살표 숨기기 (선택 사항) */
+    -moz-appearance: textfield;
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+.birthInput::-webkit-outer-spin-button,
+.birthInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* 가입하기 버튼 스타일 */
+.submitButton {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #333; /* 어두운 버튼 */
+    color: white;
+    font-weight: 600;
+    margin-top: 1rem; /* 위쪽 여백 */
+}
+
+.submitButton:hover {
+    background-color: #555;
+}
+
+/* ... (기존 스타일들) ... */
+
+/* --- 👇 입력창 + 버튼을 한 줄에 배치하기 위한 스타일 --- */
+.inputWithButton {
+    display: flex; /* 가로 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 0.5rem; /* 입력창과 버튼 사이 간격 */
+}
+
+/* 래퍼 안의 inputField 너비 자동 조절 */
+.inputWithButton .inputField {
+    flex-grow: 1; /* 남는 공간을 모두 차지 */
+    /* 필요 시 너비 비율 조정 가능 (예: flex: 3;) */
+}
+
+/* 입력창 옆 작은 버튼 스타일 */
+.inlineButton {
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 4px;
+    white-space: nowrap; /* 줄바꿈 방지 */
+    flex-shrink: 0; /* 버튼 크기 줄어들지 않게 */
+    color: #333;
+}
+.inlineButton:disabled { /* 비활성화 시 스타일 */
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+    color: #aaa;
+}
+/* --- 입력창 + 버튼 스타일 끝 --- */

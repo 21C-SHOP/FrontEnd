@@ -22,10 +22,10 @@ export const AuthProvider = ({children}) => {
         try {
             const response = await axiosInstance.post(baseUrl);
             console.log("백엔드 로그아웃 성공:", response.data);
-            // navigate('/');
+            navigate('/');
         } catch (error) {
             console.error("백엔드 로그아웃 오류:", error.response ? error.response.data : error.message);
-            // navigate('/');
+            navigate('/');
         }
     }, [navigate]);
 

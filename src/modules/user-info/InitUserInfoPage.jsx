@@ -1,10 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import styles from './UserInfoPage.module.css';
-import axiosInstance from "@/api/axiosInstance.js";
+import React, {useRef, useState} from "react";
+import styles from "@/modules/user-info/InitUserInfoPage.module.css";
 import {useNavigate} from "react-router-dom";
+import axiosInstance from "@/api/axiosInstance.js";
 
-function UserInfoPage() {
-    const [email, setEmail] = useState('');
+function InitUserInfoPage() {
     const [name, setName] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [address1, setAddress1] = useState('');
@@ -17,42 +16,15 @@ function UserInfoPage() {
     const address2Ref = useRef(null);
     const navigate = useNavigate();
 
-    // 초기값 불러오기
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const response = await axiosInstance.get('/v1/users/info');
-                const userInfo = response.data.result;
-                console.log("회원 정보 조회 성공:", userInfo);
-                setEmail(userInfo.email || '');
-                setName(userInfo.name || '');
-                setZipCode(userInfo.zipCode || '');
-                setAddress1(userInfo.address1 || '');
-                setAddress2(userInfo.address2 || '');
-                setPhone(userInfo.phoneNumber || '');
-                if (userInfo.birth) {
-                    const birthParts = userInfo.birth.split('-');
-                    if (birthParts.length === 3) {
-                        setBirthYear(birthParts[0]);
-                        setBirthMonth(birthParts[1]);
-                        setBirthDay(birthParts[2]);
-                    }
-                }
-            } catch (err) {
-                console.error("회원 정보 조회 실패:", err.response ? err.response.data : err.message);
-            }
-        };
-        fetchUserInfo();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
     // 회원정보 수정 버튼
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        // 생년월일 조합 및 유효성 검사
         let birthDate = null;
         if (birthYear && birthMonth && birthDay) {
-            const month = String(birthMonth).padStart(2, '0');
-            const day = String(birthDay).padStart(2, '0');
+            const month = birthMonth.padStart(2, '0');
+            const day = birthDay.padStart(2, '0');
             birthDate = `${birthYear}-${month}-${day}`;
             if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
                 alert('올바른 날짜 형식이 아닙니다 (YYYY-MM-DD)');
@@ -63,7 +35,7 @@ function UserInfoPage() {
             return;
         }
 
-        const updateUserInfoDto = {
+        const userInfoDto = {
             name: name,
             zipCode: zipCode,
             address1: address1,
@@ -73,13 +45,14 @@ function UserInfoPage() {
         };
 
         try {
-            const response = await axiosInstance.patch('/v1/users/info', updateUserInfoDto);
-            console.log('회원정보 수정 성공:', response.data);
-            alert('회원정보가 성공적으로 수정되었습니다.');
-            navigate('/mypage');
+            const response = await axiosInstance.post('/v1/users/info', userInfoDto);
+            console.log('회원정보 입력 성공:', response.data);
+            alert('회원정보가 성공적으로 입력되었습니다.');
+            navigate('/'); // 성공 시 메인 페이지로 이동
+
         } catch (error) {
-            console.error('회원정보 수정 오류:', error.response ? error.response.data : error.message);
-            const errorMessage = error.response?.data?.message || '회원정보 수정 중 오류가 발생했습니다.';
+            console.error('회원정보 입력 오류:', error.response ? error.response.data : error.message);
+            const errorMessage = error.response?.data?.message || '회원정보 입력 중 오류가 발생했습니다.';
             alert(errorMessage);
         }
     };
@@ -120,19 +93,8 @@ function UserInfoPage() {
 
     return (
         <div className={styles.signupContainer}>
-            <h2 className={styles.title}>회원정보 수정</h2>
+            <h2 className={styles.title}>회원정보 입력</h2>
             <form onSubmit={handleSubmit} className={styles.signupForm}>
-                {/* 이메일 */}
-                <div className={styles.inputGroup}>
-                    <label htmlFor="email">이메일</label>
-                    <input
-                        id="email"
-                        type="email"
-                        value={email}
-                        readOnly
-                        className={styles.inputField}
-                    />
-                </div>
 
                 {/* 이름 */}
                 <div className={styles.inputGroup}>
@@ -201,11 +163,11 @@ function UserInfoPage() {
                 </div>
 
                 <button type="submit" className={styles.submitButton}>
-                    수정하기
+                    입력하기
                 </button>
             </form>
         </div>
     );
 }
 
-export default UserInfoPage;
+export default InitUserInfoPage;

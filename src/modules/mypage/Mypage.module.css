@@ -1,0 +1,130 @@
+.myPageContainer {
+    max-width: 900px; /* 전체 컨테이너 너비 */
+    margin: 2rem auto; /* 위아래 여백 및 중앙 정렬 */
+    padding: 1rem;
+    color: #333; /* 기본 텍스트 색상 */
+}
+
+.sectionTitle {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    text-align: left; /* 제목 왼쪽 정렬 */
+    padding-left: 0.5rem; /* 약간의 왼쪽 여백 */
+}
+
+/* --- 상단 요약 섹션 --- */
+.summarySection {
+    display: flex; /* 가로 배치 */
+    justify-content: space-around; /* 균등 간격 */
+    background-color: #ffffff; /* 배경색 */
+    padding: 1.5rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid #eee;
+}
+
+.summaryBox {
+    display: flex;
+    flex-direction: column; /* 아이콘-라벨-값 수직 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    text-align: center;
+}
+
+.icon {
+    width: 32px; /* 아이콘 크기 */
+    height: 32px;
+    margin-bottom: 0.5rem;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.value {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+/* --- 주문 내역 섹션 --- */
+.orderSection {
+    background-color: #ffffff; /* 배경색 */
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    border: 1px solid #eee;
+}
+
+.orderSection .sectionTitle { /* .orderSection 안의 .sectionTitle 특정 */
+    font-size: 1.2rem;
+    font-weight: 600;
+    /* margin-bottom: 1.5rem; */ /* 기존 값 주석 처리 또는 삭제 */
+    margin-top: 0.5rem; /* 1. 위쪽 여백 줄이기 (기존보다 작게) */
+    margin-bottom: 1rem; /* 2. 아래쪽 여백 늘리기 (점선과의 간격) */
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.orderStatusGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+    gap: 1rem; /* 칸 사이 간격 */
+    text-align: center;
+}
+
+.firstRow {
+    border-bottom: 1px dashed #ddd; /* 구분선 */
+    padding-bottom: 1.5rem;
+}
+
+.secondRow {
+    margin-top: 1rem; /* 두 번째 행 위쪽 여백 */
+    border-top: 1px dashed #ddd; /* 구분선 */
+    padding-top: 1rem;
+}
+
+.orderStatusBox {
+    /* 각 칸 스타일 (테두리 등 필요 시 추가) */
+}
+
+.orderCount {
+    display: block;
+    font-size: 1.5rem; /* 숫자 크기 */
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.orderLabel {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+
+/* --- 하단 액션 섹션 --- */
+.actionSection {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+    background-color: #ffffff;
+    padding: 1.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.actionBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer; /* 클릭 가능한 영역으로 표시 (링크/버튼으로 변경 필요) */
+}
+
+.actionBox:hover {
+    opacity: 0.8; /* 호버 효과 */
+}
+
+/* actionBox의 .label, .value, .icon 스타일은 summaryBox와 동일하거나 유사하게 사용 가능 */
+.actionBox .label {
+    margin-top: 0.5rem; /* 아이콘과 라벨 사이 간격 */
+}
