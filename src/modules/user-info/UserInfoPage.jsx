@@ -73,8 +73,7 @@ function UserInfoPage() {
         };
 
         try {
-            const response = await axiosInstance.patch('/v1/users/info', updateUserInfoDto);
-            console.log('회원정보 수정 성공:', response.data);
+            await axiosInstance.patch('/v1/users/info', updateUserInfoDto);
             alert('회원정보가 성공적으로 수정되었습니다.');
             navigate('/mypage');
         } catch (error) {
@@ -117,6 +116,16 @@ function UserInfoPage() {
             alert('우편번호 검색 서비스를 사용할 수 없습니다. 페이지를 새로고침 해보세요.');
         }
     };
+
+    const isSubmitDisabled =
+        !name ||
+        !zipCode ||
+        !address1 ||
+        !address2 ||
+        !phone ||
+        !birthYear ||
+        !birthMonth ||
+        !birthDay ;
 
     return (
         <div className={styles.signupContainer}>
@@ -200,7 +209,7 @@ function UserInfoPage() {
                     </div>
                 </div>
 
-                <button type="submit" className={styles.submitButton}>
+                <button type="submit" className={styles.submitButton} disabled={isSubmitDisabled}>
                     수정하기
                 </button>
             </form>

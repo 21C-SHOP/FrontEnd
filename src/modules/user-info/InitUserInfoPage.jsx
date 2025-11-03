@@ -45,8 +45,7 @@ function InitUserInfoPage() {
         };
 
         try {
-            const response = await axiosInstance.post('/v1/users/info', userInfoDto);
-            console.log('회원정보 입력 성공:', response.data);
+            await axiosInstance.post('/v1/users/info', userInfoDto);
             alert('회원정보가 성공적으로 입력되었습니다.');
             navigate('/'); // 성공 시 메인 페이지로 이동
 
@@ -90,6 +89,16 @@ function InitUserInfoPage() {
             alert('우편번호 검색 서비스를 사용할 수 없습니다. 페이지를 새로고침 해보세요.');
         }
     };
+
+    const isSubmitDisabled =
+        !name ||
+        !zipCode ||
+        !address1 ||
+        !address2 ||
+        !phone ||
+        !birthYear ||
+        !birthMonth ||
+        !birthDay ;
 
     return (
         <div className={styles.signupContainer}>
@@ -162,7 +171,7 @@ function InitUserInfoPage() {
                     </div>
                 </div>
 
-                <button type="submit" className={styles.submitButton}>
+                <button type="submit" className={styles.submitButton} disabled={isSubmitDisabled}>
                     입력하기
                 </button>
             </form>

@@ -123,6 +123,11 @@
     background-color: #555;
 }
 
+.submitButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 /* ... (기존 스타일들) ... */
 
 /* --- 👇 입력창 + 버튼을 한 줄에 배치하기 위한 스타일 --- */

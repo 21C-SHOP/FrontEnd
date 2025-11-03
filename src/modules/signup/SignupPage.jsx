@@ -1,13 +1,17 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './SignupPage.module.css';
+import axiosInstance from "@/api/axiosInstance.js";
+import {useNavigate} from "react-router-dom";
 
 function SignupPage() {
     const [email, setEmail] = useState('');
     const [verificationCode, setVerificationCode] = useState(''); // 인증번호
     const [isCodeSent, setIsCodeSent] = useState(false); // 인증번호 발송 여부
     const [isVerified, setIsVerified] = useState(false); // 이메일 인증 완료 여부
+    const [timer, setTimer] = useState(0);
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [passwordConfirmError, setPasswordConfirmError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [name, setName] = useState('');
     const [zipCode, setZipCode] = useState('');
@@ -19,6 +23,22 @@ function SignupPage() {
     const [birthDay, setBirthDay] = useState('');
 
     const address2Ref = useRef(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (timer > 0) {
+            const intervalId = setInterval(() => {
+                setTimer(prevTimer => prevTimer - 1);
+            }, 1000);
+            return () => clearInterval(intervalId);
+        }
+    }, [timer]);
+
+    const formatTime = (seconds) => {
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = seconds % 60;
+        return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    };
 
     const validatePassword = (pw) => {
         if (pw.length < 10) {
@@ -35,10 +55,26 @@ function SignupPage() {
         const newPassword = e.target.value;
         setPassword(newPassword);
         setPasswordError(validatePassword(newPassword));
+        if (passwordConfirm && newPassword !== passwordConfirm) {
+            setPasswordConfirmError('비밀번호가 일치하지 않습니다.');
+        } else {
+            setPasswordConfirmError('');
+        }
+    };
+
+    const handlePasswordConfirmChange = (e) => {
+        const newConfirmPassword = e.target.value;
+        setPasswordConfirm(newConfirmPassword);
+        // (실시간 일치 검사)
+        if (password !== newConfirmPassword) {
+            setPasswordConfirmError('비밀번호가 일치하지 않습니다.');
+        } else {
+            setPasswordConfirmError('');
+        }
     };
 
     // 회원가입 버튼
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         if (password !== passwordConfirm) {
             alert('비밀번호가 일치하지 않습니다.');
@@ -55,31 +91,60 @@ function SignupPage() {
             return;
         }
 
-        console.log('Signup attempt:', {
-            email, password, name, zipCode, address1, address2,
-            phone, birthYear, birthMonth, birthDay
-        });
-        // TODO: 회원가입 API 호출 로직 추가
+        // 생년월일 조합 및 유효성 검사
+        let birthDate = null;
+        if (birthYear && birthMonth && birthDay) {
+            const month = birthMonth.padStart(2, '0');
+            const day = birthDay.padStart(2, '0');
+            birthDate = `${birthYear}-${month}-${day}`;
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(birthDate)) {
+                alert('올바른 날짜 형식이 아닙니다 (YYYY-MM-DD)');
+                return;
+            }
+        } else {
+            alert('생년월일을 모두 입력해주세요.');
+            return;
+        }
+
+        const signupDto = {
+            email: email,
+            password: password,
+            name: name,
+            zipCode: zipCode,
+            address1: address1,
+            address2: address2,
+            phoneNumber: phone,
+            birth: birthDate
+        }
+
+        try {
+            await axiosInstance.post('/v1/users/sign-up', signupDto);
+            alert('회원가입이 완료되었습니다. 로그인 페이지로 이동합니다.');
+            navigate('/');
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || '회원가입 중 오류가 발생했습니다.';
+            alert(errorMessage);
+        }
     };
 
     // Daum 우편번호 검색 로직
     const handleZipCodeSearch = () => {
         if (window.daum && window.daum.Postcode) {
             new window.daum.Postcode({
-                oncomplete: function(data) {
+                oncomplete: function (data) {
                     let roadAddr = data.roadAddress; // 도로명 주소 변수
                     let extraRoadAddr = ''; // 참고 항목 변수
 
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                         extraRoadAddr += data.bname;
                     }
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
                         extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                     }
-                    if(extraRoadAddr !== ''){
+                    if (extraRoadAddr !== '') {
                         extraRoadAddr = ' (' + extraRoadAddr + ')';
                     }
-                    if(roadAddr !== ''){
+                    if (roadAddr !== '') {
                         roadAddr += extraRoadAddr;
                     }
 
@@ -97,28 +162,68 @@ function SignupPage() {
     };
 
     // --- 이메일 인증 관련 함수들 ---
-    const handleRequestCode = () => {
+    const handleRequestCode = async () => {
         if (!email) {
             alert('이메일을 입력해주세요.');
             return;
         }
-        // TODO: 백엔드 API 호출 (인증번호 발송 요청)
-        console.log(`인증번호 요청: ${email}`);
-        setIsCodeSent(true); // 발송 상태로 변경 (UI 변경용)
-        alert('인증번호가 발송되었습니다. 이메일을 확인해주세요.');
+
+        const emailDto = {
+            email: email
+        }
+
+        try {
+            alert('인증번호가 발송되었습니다. 이메일을 확인해주세요.');
+            await axiosInstance.post('/v1/users/verifications', emailDto);
+            setIsCodeSent(true);
+            setTimer(180);
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || '인증번호 발송 중 오류가 발생했습니다.';
+            alert(errorMessage);
+        }
     };
 
-    const handleVerifyCode = () => {
+    const handleVerifyCode = async () => {
         if (!verificationCode) {
             alert('인증번호를 입력해주세요.');
             return;
         }
-        // TODO: 백엔드 API 호출 (인증번호 확인 요청)
-        console.log(`인증번호 확인: ${verificationCode}`);
-        // 임시로 성공 처리
-        setIsVerified(true); // 인증 완료 상태로 변경
-        alert('이메일 인증이 완료되었습니다.');
+
+        const verifyDto = {
+            email: email,
+            verificationCode: verificationCode
+        }
+
+        try {
+            const response = await axiosInstance.post('/v1/users/verifications/confirm', verifyDto);
+            if (response.data.result.isAvailable) {
+                setIsVerified(true); // 인증 완료 상태로 변경
+                setTimer(0);
+                alert('이메일 인증이 완료되었습니다.');
+            } else {
+                alert('인증번호가 올바르지 않습니다. 다시 시도해주세요.');
+            }
+        } catch (error) {
+            const errorMessage = error.response?.data?.message || '인증번호 확인 중 오류가 발생했습니다.';
+            alert(errorMessage);
+        }
     };
+
+    const isSubmitDisabled =
+        !email ||
+        !isVerified ||
+        !password ||
+        !passwordConfirm ||
+        !name ||
+        !zipCode ||
+        !address1 ||
+        !address2 ||
+        !phone ||
+        !birthYear ||
+        !birthMonth ||
+        !birthDay ||
+        !!passwordError ||
+        !!passwordConfirmError;
 
     return (
         <div className={styles.signupContainer}>
@@ -152,7 +257,14 @@ function SignupPage() {
                 {/* --- 👇 인증번호 입력 그룹 추가 --- */}
                 {isCodeSent && !isVerified && ( // 인증번호가 발송되었고, 아직 인증 전일 때만 보임
                     <div className={styles.inputGroup}>
-                        <label htmlFor="verificationCode">인증번호</label>
+                        <div className={styles.labelTimerWrapper}>
+                            <label htmlFor="verificationCode">인증번호</label>
+                            {timer > 0 && (
+                                <span className={styles.timer}>
+                                    유효시간 {formatTime(timer)}
+                                </span>
+                            )}
+                        </div>
                         <div className={styles.inputWithButton}>
                             <input
                                 id="verificationCode"
@@ -170,11 +282,12 @@ function SignupPage() {
                                 확인
                             </button>
                         </div>
+                        {timer === 0 && <p className={styles.timerExpired}>인증 시간이 만료되었습니다. '재전송' 버튼을 눌러주세요.</p>}
                     </div>
                 )}
                 {/* 인증 완료 메시지 (선택 사항) */}
                 {isVerified && (
-                    <p className={styles.verifiedMessage}>✅ 이메일 인증이 완료되었습니다.</p>
+                    <p className={styles.verifiedMessage}>이메일 인증이 완료되었습니다.</p>
                 )}
 
                 {/* 비밀번호 */}
@@ -182,13 +295,21 @@ function SignupPage() {
                     <label htmlFor="password">비밀번호 (특수문자 포함, 10자 이상)</label>
                     <input id="password" type="password" value={password} onChange={handlePasswordChange} required
                            className={styles.inputField}/>
+                    {passwordError && <p className={styles.errorText}>{passwordError}</p>}
                 </div>
 
                 {/* 비밀번호 확인 */}
                 <div className={styles.inputGroup}>
                     <label htmlFor="passwordConfirm">비밀번호 확인</label>
-                    <input id="passwordConfirm" type="password" value={passwordConfirm}
-                           onChange={(e) => setPasswordConfirm(e.target.value)} required className={styles.inputField}/>
+                    <input
+                        id="passwordConfirm"
+                        type="password"
+                        value={passwordConfirm}
+                        onChange={handlePasswordConfirmChange}
+                        required
+                        className={styles.inputField}
+                    />
+                    {passwordConfirmError && <p className={styles.errorText}>{passwordConfirmError}</p>}
                 </div>
 
                 {/* 이름 */}
@@ -257,7 +378,7 @@ function SignupPage() {
                     </div>
                 </div>
 
-                <button type="submit" className={styles.submitButton} disabled={!isVerified}>
+                <button type="submit" className={styles.submitButton} disabled={isSubmitDisabled}>
                     가입하기
                 </button>
             </form>

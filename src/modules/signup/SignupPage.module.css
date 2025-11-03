@@ -172,3 +172,35 @@
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+/* --- 👇 타이머 관련 스타일 (신규) --- */
+.labelTimerWrapper {
+    display: flex;
+    justify-content: space-between; /* Label은 왼쪽, Timer는 오른쪽 */
+    align-items: baseline; /* 텍스트 베이스라인 정렬 */
+    width: 100%;
+}
+
+.timer {
+    font-size: 0.9rem;
+    color: #d9534f; /* 빨간색 계열 */
+    font-weight: 500;
+    margin-bottom: 0.5rem; /* 아래 input과의 간격 (label의 margin과 동일하게) */
+}
+
+.timerExpired {
+    font-size: 0.9rem;
+    color: #d9534f;
+    text-align: left;
+    margin-top: 0.5rem; /* input 그룹 위쪽 간격 */
+}
+
+.errorText {
+    color: #d9534f; /* 빨간색 계열 */
+    font-size: 0.85rem;
+    text-align: left;
+    margin-top: 0.25rem; /* 입력창과의 간격 */
+    margin-bottom: 0;
+    /* inputGroup의 기본 margin-bottom이 1.5rem이라
+       에러 메시지가 있어도 전체 간격은 크게 안 벌어집니다. */
+}
